@@ -5,10 +5,10 @@ print("""
 
                                     █▀▄▀█ ▄▀█ █▀▀ █░█ █ █▄░█ █▀▀
                                     █░▀░█ █▀█ █▄▄ █▀█ █ █░▀█ ██▄""")
-"""Assigning code values to specif menu items which are divided into categories using dictionaries."""
+"""Assigning code values to specific menu items which are divided into categories using dictionaries."""
 
 Inventory = {
-    "Crisps": {
+    "Crisps": { 
         "C1": {"item": "Takis", "Price": 5.50, "Stock": 13},
         "C2": {"item": "Doritos", "Price": 2.50, "Stock": 11},
         "C3": {"item": "Sun Crisps", "Price": 4.00, "Stock": 3},
@@ -59,7 +59,7 @@ def validate_code_inventory(code):
 def get_product_code():
     while True:
         code = input("Enter a product code (or type EXIT to quit): ").upper()
-        if code == "EXIT":
+        if code == "EXIT": 
             return None, None
         valid, category = validate_code_inventory(code)
         if valid:
@@ -70,7 +70,7 @@ def get_product_code():
 def process_stock(code):
     for category, items in Inventory.items():
         if code in items and items[code]['Stock'] > 0:
-            items[code]['Stock'] -= 1
+            items[code]['Stock'] -= 1 # To reduce the stock by one
             return items[code]
     print("Item out of stock or invalid code.")
     return None
@@ -82,7 +82,7 @@ def process_payment(total_price):
             if amount >= total_price:
                 return amount - total_price
             else:
-                print("Insufficient amount. Please try again.")
+                print("Insufficient amount. Please try again.") 
         except ValueError:
             print("Invalid input. Please enter a valid amount.")
 #Function to suggest the user to buy a product based on their previous purchase
@@ -95,7 +95,7 @@ def suggest_pairing(category):
     }
     paired_category = pairings.get(category)
     if not paired_category:
-        print("No pairings available for this item.")
+        print("No pairings available for this item.") #If there is no corresponding pairing item
         return {}
 
     print(f"\nSuggested pairings from {paired_category}:")
