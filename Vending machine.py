@@ -1,4 +1,6 @@
-# Printing out a friendly heading for the vending machine
+#Vending Machine code for Assessment 2.
+#The following code will allow users to view it and select what they want to purchase.
+# Printing out a friendly heading for the vending machine.
 print("""
 █░█░█ █▀▀ █░░ █▀▀ █▀█ █▀▄▀█ █▀▀   ▀█▀ █▀█   ▄▀█ █▀▄▀█ █▄▄ █▀█ █▀▀ █▀▀ █▄░█ ▀ █▀   █░█ █▀▀ █▄░█ █▀▄ █ █▄░█ █▀▀
 ▀▄▀▄▀ ██▄ █▄▄ █▄▄ █▄█ █░▀░█ ██▄   ░█░ █▄█   █▀█ █░▀░█ █▄█ █▀▄ ██▄ ██▄ █░▀█ ░ ▄█   ▀▄▀ ██▄ █░▀█ █▄▀ █ █░▀█ █▄█
@@ -8,6 +10,7 @@ print("""
 """Assigning code values to specific menu items which are divided into categories using dictionaries."""
 
 Inventory = {
+    #Crisps category items with product codes.
     "Crisps": { 
         "C1": {"item": "Takis", "Price": 5.50, "Stock": 13},
         "C2": {"item": "Doritos", "Price": 2.50, "Stock": 11},
@@ -16,6 +19,7 @@ Inventory = {
         "C5": {"item": "Cheetos", "Price": 3.00, "Stock": 5},
     },
     "Chocolates": {
+        #Chocolates category items with product codes.
         "CH1": {"item": "Galaxy Flutes", "Price": 3.00, "Stock": 10},
         "CH2": {"item": "Cadbury", "Price": 1.50, "Stock": 8},
         "CH3": {"item": "Kinder Bueno", "Price": 4.50, "Stock": 3},
@@ -23,6 +27,7 @@ Inventory = {
         "CH5": {"item": "KitKat", "Price": 1.50, "Stock": 13},
     },
     "Biscuits": {
+        #Biscuits category items with product codes.
         "B1": {"item": "CoCo Mo", "Price": 1.50, "Stock": 11},
         "B2": {"item": "Oreo", "Price": 3.00, "Stock": 9},
         "B3": {"item": "Loacker", "Price": 5.50, "Stock": 13},
@@ -30,6 +35,7 @@ Inventory = {
         "B5": {"item": "Granola Bar", "Price": 5.00, "Stock": 12},
     },
     "Drinks": {
+        #Drinks category items with product codes.
         "D1": {"item": "Coca Cola", "Price": 2.50, "Stock": 7},
         "D2": {"item": "Pepsi", "Price": 2.50, "Stock": 12},
         "D3": {"item": "Redbull", "Price": 8.00, "Stock": 6},
@@ -38,8 +44,9 @@ Inventory = {
     }
 }
 
-#Function to display the vending machine menu items
+#Function to display the vending machine menu items.
 def display_menu():
+# Outputs the categories into formatted headers and item details.
     print("\n-*- Vending Machine Menu -*-")
     for category, items in Inventory.items():
         print(f"\nCategory: {category}")
@@ -47,15 +54,17 @@ def display_menu():
         print("-" * 40)
         for code, details in items.items():
             print(f"{code:<6}{details['item']:<20}${details['Price']:<8.2f}{details['Stock']:<6}")
-display_menu()  # Show the menu initially
-#Funtion to validate if the code enetered by user is valid
+#Displays the items avalible in the vending machine.
+display_menu()  
+
+#Funtion to validate if the code enetered by user is valid.
 def validate_code_inventory(code):
     for category, items in Inventory.items():
         if code in items:
             return True, category
     return False, None
 
-#Function to get the user input for product code
+#Function to get the user input for product code.
 def get_product_code():
     while True:
         code = input("Enter a product code (or type EXIT to quit): ").upper()
@@ -66,15 +75,17 @@ def get_product_code():
             return code, category
         else:
             print("Invalid code. Please try again.")
-#Function to check and track the stock 
+
+#Function to check and track the stock.
 def process_stock(code):
     for category, items in Inventory.items():
         if code in items and items[code]['Stock'] > 0:
-            items[code]['Stock'] -= 1 # To reduce the stock by one
+            items[code]['Stock'] -= 1 # To reduce the stock by one.
             return items[code]
     print("Item out of stock or invalid code.")
     return None
-#Function to carry out the payment process 
+
+#Function to carry out the payment process.
 def process_payment(total_price):
     while True:
         try:
@@ -85,7 +96,9 @@ def process_payment(total_price):
                 print("Insufficient amount. Please try again.") 
         except ValueError:
             print("Invalid input. Please enter a valid amount.")
-#Function to suggest the user to buy a product based on their previous purchase
+
+#Function to suggest the user to buy a product based on their previous purchase.
+#This function pairs items according to the category purchased and if no pairings exists it notifys the user.
 def suggest_pairing(category):
     pairings = {
         "Crisps": "Drinks",
@@ -95,7 +108,7 @@ def suggest_pairing(category):
     }
     paired_category = pairings.get(category)
     if not paired_category:
-        print("No pairings available for this item.") #If there is no corresponding pairing item
+        print("No pairings available for this item.") #If there is no corresponding pairing item.
         return {}
 
     print(f"\nSuggested pairings from {paired_category}:")
@@ -103,14 +116,16 @@ def suggest_pairing(category):
     for code, details in paired_items.items():
         print(f"{code}: {details['item']} - ${details['Price']:.2f}")
     return paired_items
-#Function to check if the paired items code is valid
+
+#Function to check if the paired items code is valid.
 def validate_pairing_code(pairings):
     while True:
         pairing_code = input("Enter the code of the pairing item: ").upper()
         if pairing_code in pairings and pairings[pairing_code]['Stock'] > 0:
             return pairing_code
         print("Invalid pairing code. Please try again.")
-#Function to print the summary of the purchase
+
+#Function to print the summary of the purchase.
 def print_receipt(items):
     print("\n--- Receipt ---")
     total = 0
@@ -119,37 +134,38 @@ def print_receipt(items):
         total += item['Price']
     print(f"Total: ${total:.2f}")
     print("Thank you for using the vending machine!")
-#Main function of the vending machine
+
+#Main function of the vending machine.
 def vending_machine():
-    items_purchased = []  # List to store items purchased
+    items_purchased = []  # List to store items purchased.
 
     while True:
-        code, category = get_product_code()  # Get product code from user
-        if not code:  # If user types EXIT, break the loop
+        code, category = get_product_code()  # Get product code from user.
+        if not code:  # If user types EXIT, break the loop.
             break
 
-        item = process_stock(code)  # Process the item
+        item = process_stock(code)  # Process the item.
         if item:
             print(f"{item['item']} added to your cart for ${item['Price']:.2f}")
-            total_price = item['Price']  # Set initial total price to the selected item
+            total_price = item['Price']  # Set initial total price to the selected item.
 
-            pairings = suggest_pairing(category)  # Suggest pairings
+            pairings = suggest_pairing(category)  # Suggest pairings.
             if pairings:
                 use_change = input("Do you want to buy a pairing item? (y/n): ").lower()
                 if use_change == 'y':
-                    pairing_code = validate_pairing_code(pairings)  # Get valid pairing item code
+                    pairing_code = validate_pairing_code(pairings)  # Get valid pairing item code.
                     pairing_item = process_stock(pairing_code)
                     if pairing_item:
                         print(f"{pairing_item['item']} added to your cart for ${pairing_item['Price']:.2f}")
                         total_price += pairing_item['Price']
                         items_purchased.append(pairing_item)
 
-            change = process_payment(total_price)  # Process payment
+            change = process_payment(total_price)  # Process payment.
             print(f"Payment accepted. Change: ${change:.2f}")
-            items_purchased.append(item)  # Add selected item to purchased list
-            print_receipt(items_purchased)  # Print the receipt
-            print("Have a nice day!")  # Display closing message
-            break  # Exit after printing receipt and message
+            items_purchased.append(item)  # Add selected item to purchased list.
+            print_receipt(items_purchased)  # Print the receipt.
+            print("Have a nice day!")  # Display closing message.
+            break  # Exit after printing receipt and message.
 
 if __name__ == "__main__":
     vending_machine()
