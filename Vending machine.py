@@ -54,10 +54,10 @@ def display_menu():
         print("-" * 40)
         for code, details in items.items():
             print(f"{code:<6}{details['item']:<20}${details['Price']:<8.2f}{details['Stock']:<6}")
-#Displays the items avalible in the vending machine.
+#Displays the items available in the vending machine.
 display_menu()  
 
-#Funtion to validate if the code enetered by user is valid.
+#Funtion to validate if the code entered by user is valid.
 def validate_code_inventory(code):
     for category, items in Inventory.items():
         if code in items:
